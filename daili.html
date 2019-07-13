@@ -50,6 +50,16 @@
             bottom: 0;
             border-radius:30px
         }
+        #input0{
+            padding-left: 10px;
+            outline:none;
+            height: 30px;
+            width: 220px;
+            border: 0;
+            border-radius:10px;
+            background-color: rgba(211, 211, 211, 0.5);// 透明背景
+
+        }
         #input2{
             padding-left: 10px;
             outline:none;
@@ -76,6 +86,42 @@
             outline:none;
             background-color: rgba(211, 211, 211, 0.5);// 透明背景
         }
+        #input3{
+            padding-left: 10px;
+            outline:none;
+            height: 30px;
+            width: 220px;
+            border: 0;
+            border-radius:10px;
+            background-color: rgba(211, 211, 211, 0.5);// 透明背景
+        }
+        #input4{
+            padding-left: 10px;
+            outline:none;
+            height: 30px;
+            width: 220px;
+            border: 0;
+            border-radius:10px;
+            background-color: rgba(211, 211, 211, 0.5);// 透明背景
+        }
+        #input5{
+            padding-left: 10px;
+            outline:none;
+            height: 30px;
+            width: 220px;
+            border: 0;
+            border-radius:10px;
+            background-color: rgba(211, 211, 211, 0.5);// 透明背景
+        }
+        #input6{
+            padding-left: 10px;
+            outline:none;
+            height: 30px;
+            width: 220px;
+            border: 0;
+            border-radius:10px;
+            background-color: rgba(211, 211, 211, 0.5);// 透明背景
+        }
         .btt1{
             height: 30px;
             width: 110px;
@@ -93,6 +139,14 @@
             margin-left: 30px;
             border-radius:30px
         }
+        /*.button_base {*/
+            /*height: 30px;*/
+            /*width: 110px;*/
+            /*border: 0;*/
+            /*outline:none;*/
+            /*margin-left: 30px;*/
+            /*border-radius:30px*/
+        /*}*/
         .b01_simple_rollover {
             color: #000000;
             /*padding: 10px;*/
@@ -102,23 +156,6 @@
         .b01_simple_rollover:hover {
             color: #ffffff;
             background-color: #000000;
-        }
-        #table4{
-            width: 950px;
-            /*height: 250px;*/
-            /*background: #2EA0D9;*/
-            /*overflow: auto;*/
-            margin: auto;
-            position: absolute;
-            top: 155px;
-            left: 0;
-            right: 0;
-            /*bottom: 0;*/
-            border-radius:30px;
-
-        }
-        #tbMain.td{
-            border:10px solid #000000;
         }
     </style>
 
@@ -132,16 +169,14 @@
 <script src="http://118.24.241.115/static/js/modal_dialog.js"></script>
 <body id="body1">
     <div id="div1">
-        <div id="div2"><p id="font1">查询订单信息：</p></div>
+        <div id="div2"><p id="font1">请完成提取信息：</p></div>
         <div id="div3">
             <form  onsubmit="return false;">
-                <p>手机号：<input id="input2" placeholder=" 请输入手机号！" class="phone_NUM" type="text" required="required"></p>
+                <p>手机号：<input id="input2" placeholder=" 请输入手机号！（用于发货）" class="phone_NUM" type="text" required="required"></p>
                 <p>验证码：<input id="input1" placeholder=" 验证码" class="YZM_phone" type="text" required="required"><input type="button" class="yzmbtn b01_simple_rollover" id="yzmbtn" value="获取验证码" /></p>
+                <p>数&nbsp;&nbsp;&nbsp;&nbsp;量：<input id="input4" placeholder=" 购买套餐以及数量..." type="text" required="required" class="beizhu"></p>
                 <button type="submit" id="btt1" class="btt1 b01_simple_rollover" >提&nbsp;&nbsp;交</button><button type="button" id="btt2" class="btt2 b01_simple_rollover">返&nbsp;&nbsp;回</button>
             </form>
-            <table id="table4">  
-               <tbody id="tbMain"></tbody>  
-            </table>
         </div>
     </div>
 
@@ -202,7 +237,8 @@
                 });
             $("#btt1").on("click", function () {
                 var PHONE_NUM = $(".phone_NUM").val();
-                var YZM_phone = $(".YZM_phone").val();
+                var YZM_NUM = $(".YZM_phone").val();
+                var BEIZHU = $(".beizhu").val();
                 if (!(/^1[34578]\d{9}$/.test(PHONE_NUM))) {
                     $modal({
                         type: 'message',
@@ -215,26 +251,55 @@
                     });
                     return false;
 
-                }
-                if (!YZM_phone) {
+                };
+                if (!PHONE_NUM) {
                     $modal({
                         type: 'message',
                         icon: 'error',
                         timeout: 3000,
-                        content: '请输入验证码！',
+                        content: '请完成填写！',
                         center: true,
                         transition: 300,
                         closable: true
-                    });
+                        });
+                    document.getElementById("btt1").disabled = false;
                     return false;
                 }
+                if (!YZM_NUM) {
+                    $modal({
+                        type: 'message',
+                        icon: 'error',
+                        timeout: 3000,
+                        content: '请完成填写！',
+                        center: true,
+                        transition: 300,
+                        closable: true
+                        });
+                    document.getElementById("btt1").disabled = false;
+                    return false;
+                }
+                if (!BEIZHU) {
+                    $modal({
+                        type: 'message',
+                        icon: 'error',
+                        timeout: 3000,
+                        content: '请完成填写！',
+                        center: true,
+                        transition: 300,
+                        closable: true
+                        });
+                    document.getElementById("btt1").disabled = false;
+                    return false;
+                }
+                document.getElementById("btt1").disabled = true;
                 $.ajax({
                     type: "POST",
-                    url: "http://118.24.241.115:10019/Get_dingdan",
+                    url: "http://118.24.241.115:10019/Get_tiqu",
                     dataType: "json", //跨域json请求一定是jsonp
                     data: {
                         PHONE_NUM: PHONE_NUM,
-                        YZM_phone: YZM_phone,
+                        YZM_NUM: YZM_NUM,
+                        BEIZHU: BEIZHU,
                     },
                     success: (res) => {
                         if (res.code == 0) {
@@ -242,58 +307,28 @@
                                         type: 'message',
                                         icon: 'success',
                                         timeout: 3000,
-                                        content: '提交成功！正在加载数据...',
+                                        content: '提交成功！',
                                         center: true,
                                         transition: 300,
                                         closable: true
                                     });
-
-                            document.getElementById("input1").style.borderWidth="0px";
                             setTimeout(function () {
-                                var  per = res.data;
-                                var tbody = document.getElementById('tbMain');
-                                var trow1 = getDataRow({id: '订单编号：', phone: '手机号：', name: '姓名:', j1ob: '订单状态:', j2ob: '激活码：'});
-                                tbody.appendChild(trow1);
-                                for (var i = 0; i < per.length; i++) { //遍历一下json数据  
-                                    var trow = getDataRow(per[i]); //定义一个方法,返回tr数据  
-                                    tbody.appendChild(trow);
-                                }
+                                window.location.href='order_inquiry.html';
+                            },3000);
 
 
-                                function getDataRow(h) {
-                                    var row = document.createElement('tr'); //创建行  
-
-                                    var idCell = document.createElement('td'); //创建第一列id  
-                                    idCell.innerHTML = h.id; //填充数据  
-                                    row.appendChild(idCell); //加入行  ，下面类似  
-
-                                    var nameCell = document.createElement('td');//创建第二列name  
-                                    nameCell.innerHTML = h.phone;
-                                    row.appendChild(nameCell);
-
-                                    var jobCell = document.createElement('td');//创建第三列job  
-                                    jobCell.innerHTML = h.name;
-                                    row.appendChild(jobCell);
-
-                                    var jobCel1 = document.createElement('td');//创建第三列job  
-                                    jobCel1.innerHTML = h.j1ob;
-                                    row.appendChild(jobCel1);
-
-                                    var jobCel2 = document.createElement('td');//创建第三列job  
-                                    jobCel2.innerHTML = h.j2ob;
-                                    row.appendChild(jobCel2);
-
-
-                                    //到这里，json中的数据已经添加到表格中，下面为每行末尾添加删除按钮  
-
-
-                                    return row; //返回tr数据    
-                                }}
-
-                            ,
-                                3000
-                            );
-
+                        }else if(res.code == -2){
+                            $modal({
+                                type: 'message',
+                                icon: 'error',
+                                timeout: 3000,
+                                content: '无权限！',
+                                center: true,
+                                transition: 300,
+                                closable: true
+                            });
+                            document.getElementById("btt1").disabled = false;
+                            return false;
 
                         } else {
                             document.getElementById("input1").style.borderStyle="solid";
@@ -308,6 +343,7 @@
                                 transition: 300,
                                 closable: true
                             });
+                            document.getElementById("btt1").disabled = false;
                             return false;
                         }
 
@@ -325,9 +361,8 @@
 
     function settime(obj) {
         if (countdown == 0) {
-            // alert('11111');
             obj.removeAttribute("disabled");
-            obj.value = "免费获取验证码";
+            obj.value = "获取验证码";
             countdown = 60;
             return;
         } else {
